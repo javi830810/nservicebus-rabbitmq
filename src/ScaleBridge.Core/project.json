@@ -3,21 +3,21 @@
     "dependencies": {
         "ScaleBridge.Message": "1.0.0-*",
         
-        //AutoMapper
+        
         "AutoMapper": "3.3.0",
         
-        //Castle
+        
         "Castle.Core": "3.3.0",
         "Castle.Windsor": "3.3.0",
         
-        //JSON.NET
+        
         "Newtonsoft.Json": "6.0.1",
         "RestSharp": "105.0.1",
         
-        //NServiceBus
+        
         "NServiceBus": "5.2.0",
         
-        //Logging
+        
         "Microsoft.Framework.Logging": "1.0.0-*"  
     },
 
