@@ -1,162 +1,108 @@
-using System;
+﻿using System;
+using System.Web.Http;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using Owin;
+using Protocols.Configs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Reflection;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Routing;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
-using Microsoft.Framework.OptionsModel;
-using Microsoft.AspNet.Authorization;
-
-using Microsoft.Framework.Runtime;
-using Microsoft.Framework.ConfigurationModel.Json;
-using Microsoft.Framework.ConfigurationModel;
-using ILogger = Microsoft.Framework.Logging.ILogger;
-using DI = Microsoft.Framework.DependencyInjection;
-using ScaleBridge.Core;
-using Castle.MicroKernel.Registration;
+using System.Web.Http.Dispatcher;
+using Protocols;
 using Castle.Windsor;
-using Castle.MicroKernel.Lifestyle;
 
-using NServiceBus;
-using NServiceBus.Config.ConfigurationSource;
-using NServiceBus.Config;
+
+using Castle.Core;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor.Installer;
 
 using NLog;
-using NLog.Targets;
 using NLog.Config;
+using NLog.Targets;
+using NServiceBus;
+
+using ScaleBridge.Core;
 
 namespace ScaleBridge.Web
 {
     public class Startup
     {
-        private WindsorContainer container;
-        private IHostingEnvironment environment;
-        
-        public Startup(IHostingEnvironment env)
+        public void Configuration(IAppBuilder app)
         {
-            this.environment = env;
+            //app.Run((ctx=> ctx.Response.WriteAsync("This is a test")));
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                "Default",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional });
+
+            app.UseWebApi(config);
+
+            var container = ConfigureContainer ();
+			ConfigureLogging();
+			ConfigureBus (container);
+
+			config.Services.Replace(
+				typeof(IHttpControllerActivator),
+				new ControllersActivator(container));
         }
 
-        // This method gets called by a runtime.
-        // Use this method to add services to the container
-        public void ConfigureServices(DI.IServiceCollection services)
-        {   
-            services.AddMvc();
-            services.AddOptions();
+		private IWindsorContainer ConfigureContainer()
+		{
+			var container = new WindsorContainer();
 
-            //Please do not remove this line, it breaks Injection if not included
-            services.Configure<AuthorizationOptions>(options =>
-            {
-            });
+			container.Register(
+				Component.For<ISettings>()
+				.ImplementedBy<Settings>()
+			);
 
-            ConfigureContainer(services);
-        }
+			container.Install(
+				new ManagersInstaller(),
+				new ControllersInstaller()
+			);
 
-        // Configure is called after ConfigureServices is called.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
-        {
-            ConfigureLogging(container);
-            
-            app.UseDefaultFiles();
-            // Configure the HTTP request pipeline.
-            app.UseStaticFiles();
-            
-            //To resolve index.html-like files
-            app.UseDefaultFiles();
-            
-            // Add MVC to the request pipeline.
-            app.UseMvc();
+			return container;
+		}
 
-            // Add the following route for porting Web API 2 controllers.
-            // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");   
-            
-            app.ApplicationServices =  container.Resolve<IServiceProvider>();
+		private void ConfigureBus(IWindsorContainer container)
+		{
+			var configuration = new BusConfiguration();
+			var conventionsBuilder = configuration.Conventions();
+			var Settings = container.Resolve<ISettings>();
 
-            ConfigureBus();
-        }
-        
-        private void ConfigureContainer(DI.IServiceCollection services)
-        {
-            this.container = new WindsorContainer();
-            
-             this.container.Register(
-                Component.For<IHostingEnvironment>()
-                        .Instance(this.environment)
-            );
-            
-            container.Populate(services);
+			conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Command"));
+			conventionsBuilder.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Event"));
 
-            this.container.Register(
-                Component.For<Settings>()
-                        .ImplementedBy<Settings>()
-            );
+			configuration.EndpointName("ScaleBridge.Web");
+			configuration.UseSerialization<JsonSerializer>();
+			configuration.AssembliesToScan(AllAssemblies.Matching("ScaleBridge.Message").And("NServiceBus"));
+			configuration.UseTransport<RabbitMQTransport>().ConnectionString(Settings.Get("rabbitmq"));
+			configuration.Transactions().Disable();
 
-            this.container.Install(
-                new ManagersInstaller()
-            );
-            
-            
-            //Huge Patch do not remove until we find out what's happenning here
-            container.Register(
-                Component.For(typeof(IEnumerable<Microsoft.AspNet.Mvc.Core.IActionDescriptorProvider>))
-                        .ImplementedBy(typeof(List<Microsoft.AspNet.Mvc.Core.IActionDescriptorProvider>))
-            );
+			configuration.UsePersistence<InMemoryPersistence>();
 
-            container.BeginScope();
-        }
+			configuration.EnableInstallers();
 
-        private void ConfigureBus()
-        {
-            var configuration = new BusConfiguration();
-            var conventionsBuilder = configuration.Conventions();
-            var Settings = container.Resolve<Settings>();
+			// Castle with a container instance
+			configuration.UseContainer<WindsorBuilder>(c => c.ExistingContainer(container));
 
-            conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Command"));
-            conventionsBuilder.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Event"));
+			var bus = Bus.Create(configuration);
+			bus.Start();
+		}
 
-            configuration.EndpointName("ScaleBridge.Web");
-            configuration.UseSerialization<JsonSerializer>();
-            configuration.AssembliesToScan(AllAssemblies.Matching("ScaleBridge.Message").And("NServiceBus"));
-            configuration.UseTransport<RabbitMQTransport>().ConnectionString(Settings.Get("rabbitmq"));
-            configuration.Transactions().Disable();
 
-            configuration.UsePersistence<InMemoryPersistence>();
+		private void ConfigureLogging()
+		{
+			LoggingConfiguration config = new LoggingConfiguration();
+			ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget
+			{
+				Layout = "${level}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}"
+			};
+			config.AddTarget("console", consoleTarget);
+			config.LoggingRules.Add(new LoggingRule("*", NLog.LogLevel.Info, consoleTarget));
 
-            configuration.EnableInstallers();
-            
-            // Castle with a container instance
-            configuration.UseContainer<WindsorBuilder>(c => c.ExistingContainer(this.container));
+			LogManager.Configuration = config;
+			NServiceBus.Logging.LogManager.Use<NLogFactory>();
 
-            var bus = Bus.Create(configuration);
-            bus.Start();
-
-        }
-        
-        private void ConfigureLogging(IWindsorContainer container)
-        {
-            LoggingConfiguration config = new LoggingConfiguration();
-            ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget
-            {
-                Layout = "${level}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}"
-            };
-            config.AddTarget("console", consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("*", NLog.LogLevel.Info, consoleTarget));
-
-            
-            LogManager.Configuration = config;
-            NServiceBus.Logging.LogManager.Use<NLogFactory>();
-            
-            var factory = container.Resolve<ILoggerFactory>();
-            factory.AddNLog(new NLog.LogFactory(config));
-        }
+		}
 
     }
-
-    
-
 }
