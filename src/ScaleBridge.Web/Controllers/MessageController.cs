@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using ScaleBridge.Message.Event;
 
 using NLog;
 using NServiceBus;
 
-namespace ScaleBridge.Web.Controllers
+namespace ScaleBridge.Web
 {
     
 	public class MessageController : BaseController
@@ -19,14 +19,25 @@ namespace ScaleBridge.Web.Controllers
 
 		public string Get()
 		{
-			Logger.Info ("Get METHOD");
+			Logger.Info("Get METHOD");
 
 			return "Hello world";
 		}
 
-		public void Post(Dictionary<string,string> data)
+		public void Post(Dictionary<string,string> message)
         {
-            
+			try{
+				Logger.Info("Message received");
+
+				Bus.Send("ScaleBridge.Transform", new InputMessage(){
+					MessageData = message
+				});
+			}
+			catch(Exception ex){
+				Logger.Error(ex.Message);
+				Logger.Error(ex.StackTrace);
+				throw ex;
+			}
         }
 
     }
