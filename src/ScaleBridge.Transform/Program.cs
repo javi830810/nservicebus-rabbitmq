@@ -6,11 +6,6 @@ using Castle.MicroKernel.Registration;
 
 using NServiceBus;
 
-using Microsoft.Framework.ConfigurationModel.Json;
-using Microsoft.Framework.ConfigurationModel;
-using Microsoft.Framework.Logging;
-using Config = Microsoft.Framework.ConfigurationModel;
-
 using NLog;
 using NLog.Targets;
 using NLog.Config;
@@ -22,7 +17,7 @@ namespace ScaleBridge.Transform
 {
     public class Program
     {
-        public void Main(string[] args)
+		public static void Main(string[] args)
         {
             
             var container = ConfigureContainer();
@@ -43,7 +38,7 @@ namespace ScaleBridge.Transform
             }
         }
 
-        private IWindsorContainer ConfigureContainer()
+		private static IWindsorContainer ConfigureContainer()
         {
             var container = new WindsorContainer();
             
@@ -59,7 +54,7 @@ namespace ScaleBridge.Transform
             return container;
         }
 
-        public BusConfiguration ConfigureNSB(IWindsorContainer container)
+		private static BusConfiguration ConfigureNSB(IWindsorContainer container)
         {
             var configuration = new BusConfiguration();
             var Settings = container.Resolve<Settings>();
@@ -91,7 +86,7 @@ namespace ScaleBridge.Transform
 
         }
         
-        private void ConfigureLogging(IWindsorContainer container)
+		private static void ConfigureLogging(IWindsorContainer container)
         {
             LoggingConfiguration config = new LoggingConfiguration();
             ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget
@@ -103,13 +98,6 @@ namespace ScaleBridge.Transform
 
             LogManager.Configuration = config;
             NServiceBus.Logging.LogManager.Use<NLogFactory>();
-            
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddNLog(new NLog.LogFactory(config));
-            
-            container.Register(
-                Component.For<ILoggerFactory>().Instance(loggerFactory)
-            );
         }
 
         

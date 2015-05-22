@@ -5,8 +5,8 @@ using System.Text;
 using ScaleBridge.Core;
 using ScaleBridge.Message;
 using ScaleBridge.Message.Event;
-using Microsoft.Framework.Logging;
 using NServiceBus;
+using NLog;
 
 namespace ScaleBridge.Transform
 {
@@ -14,20 +14,20 @@ namespace ScaleBridge.Transform
         IHandleMessages<InputMessage> 
     {
         public IMessageTransformManager MessageTransformManager { get; set; }
-        public ILogger Logger { get; set; }
+        public Logger Logger { get; set; }
         
-        public MessageTransformHandler(ILoggerFactory loggerFactory)
+        public MessageTransformHandler()
         {
-            Logger = loggerFactory.CreateLogger(typeof(MessageTransformHandler).FullName);
+			Logger = LogManager.GetLogger(GetType().FullName);
         }
         
         public void Handle(InputMessage message)
         {
-            Logger.LogInformation("InputMessage received!!!");
+			Logger.Info("InputMessage received!!!");
             
             foreach(var x in message.MessageData){
-                Logger.LogInformation("Key: " + x.Key);
-                Logger.LogInformation("Value: " + x.Value);
+				Logger.Info("Key: " + x.Key);
+				Logger.Info("Value: " + x.Value);
             }
             
             MessageTransformManager.Transform(message);
@@ -38,25 +38,25 @@ namespace ScaleBridge.Transform
         IHandleMessages<PublishMessage> 
     {
         public IMessageTransformManager MessageTransformManager { get; set; }
-        public ILogger Logger { get; set; }
+		public Logger Logger { get; set; }
         
-        public HttpPublishHandler(ILoggerFactory loggerFactory)
+        public HttpPublishHandler()
         {
-            Logger = loggerFactory.CreateLogger(typeof(MessageTransformHandler).FullName);
+			Logger = LogManager.GetLogger(GetType().FullName);
         }
         
         public void Handle(PublishMessage message)
         {
-            Logger.LogInformation("Publish MEssage Received");
+            Logger.Info("Publish MEssage Received");
             
             foreach(var x in message.MessageData){
-                Logger.LogInformation("Key: " + x.Key);
-                Logger.LogInformation("Value: " + x.Value);
+                Logger.Info("Key: " + x.Key);
+                Logger.Info("Value: " + x.Value);
             }
             
             //HTTP the message to the given webhooks
             
-            Logger.LogInformation("HTTP the message to the given webhooks");
+            Logger.Info("HTTP the message to the given webhooks");
         }
     }
 }
