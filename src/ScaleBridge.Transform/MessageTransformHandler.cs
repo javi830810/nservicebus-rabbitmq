@@ -14,49 +14,26 @@ namespace ScaleBridge.Transform
         IHandleMessages<InputMessage> 
     {
         public IMessageTransformManager MessageTransformManager { get; set; }
+		public IMessagePublisherManager MessagePublisher { get; set; }
+
         public Logger Logger { get; set; }
         
-        public MessageTransformHandler()
+		public MessageTransformHandler()
         {
 			Logger = LogManager.GetLogger(GetType().FullName);
         }
         
         public void Handle(InputMessage message)
         {
-			Logger.Info("InputMessage received!!!");
+			Logger.Info("InputMessage Start");
             
-            foreach(var x in message.MessageData){
-				Logger.Info("Key: " + x.Key);
-				Logger.Info("Value: " + x.Value);
-            }
-            
-            MessageTransformManager.Transform(message);
-        }
-    }
-    
-    public class  HttpPublishHandler: 
-        IHandleMessages<PublishMessage> 
-    {
-        public IMessageTransformManager MessageTransformManager { get; set; }
-		public Logger Logger { get; set; }
-        
-        public HttpPublishHandler()
-        {
-			Logger = LogManager.GetLogger(GetType().FullName);
-        }
-        
-        public void Handle(PublishMessage message)
-        {
-            Logger.Info("Publish MEssage Received");
-            
-            foreach(var x in message.MessageData){
-                Logger.Info("Key: " + x.Key);
-                Logger.Info("Value: " + x.Value);
-            }
-            
-            //HTTP the message to the given webhooks
-            
-            Logger.Info("HTTP the message to the given webhooks");
+			foreach (var messageInfo in MessageTransformManager.Transform(message)) 
+			{
+
+				MessagePublisher.Publish (messageInfo);
+			}
+
+			Logger.Info("InputMessage Completed");
         }
     }
 }
