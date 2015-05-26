@@ -1,0 +1,37 @@
+﻿<Properties StartupItem="ScaleBridge.Transform/ScaleBridge.Transform.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ScaleBridge.Core/IJotformMessageTransformManager.cs">
+    <Files>
+      <File FileName="ScaleBridge.Core/IJotformMessageTransformManager.cs" Line="34" Column="32" />
+      <File FileName="ScaleBridge.Transform/JotformMessageTransformHandler.cs" Line="32" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ScaleBridge" expanded="True" selected="True">
+            <Node name="ScaleBridge.Core" expanded="True" />
+            <Node name="ScaleBridge.Message" expanded="True">
+              <Node name="Packages" expanded="True" />
+            </Node>
+            <Node name="ScaleBridge.Transform" expanded="True" />
+            <Node name="ScaleBridge.Web" expanded="True">
+              <Node name="Configs" expanded="True" />
+              <Node name="Controllers" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/bweller/Documents/git/scalebridge/src/nservicebus-rabbitmq/src/ScaleBridge.Web/Controllers/JotformMessageController.cs" line="31" column="1" />
+      <Breakpoint file="/Users/bweller/Documents/git/scalebridge/src/nservicebus-rabbitmq/src/ScaleBridge.Web/Controllers/JotformMessageController.cs" line="22" column="1" />
+      <Breakpoint file="/Users/bweller/Documents/git/scalebridge/src/nservicebus-rabbitmq/src/ScaleBridge.Core/IJotformMessageTransformManager.cs" line="33" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

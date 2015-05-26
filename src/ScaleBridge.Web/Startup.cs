@@ -29,7 +29,8 @@ namespace ScaleBridge.Web
         {
             //app.Run((ctx=> ctx.Response.WriteAsync("This is a test")));
             var config = new HttpConfiguration();
-            config.Routes.MapHttpRoute(
+
+			config.Routes.MapHttpRoute(
                 "Default",
                 "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });

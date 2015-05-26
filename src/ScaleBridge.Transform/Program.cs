@@ -71,7 +71,7 @@ namespace ScaleBridge.Transform
                 .And("NServiceBus")
                 .And("ScaleBridge.Transform")
                 .And("Newtonsoft.Json"));
-            configuration.UseTransport<RabbitMQTransport>().ConnectionString(Settings.Get("rabbitmq"));
+			configuration.UseTransport<RabbitMQTransport>().ConnectionString(Settings.Get("rabbitmq"));
             configuration.DisableFeature<NServiceBus.Features.TimeoutManager>();
             configuration.Transactions().Disable();
 

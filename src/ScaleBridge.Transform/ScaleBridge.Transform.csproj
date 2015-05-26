@@ -64,6 +64,7 @@
     <Compile Include="ManagersInstaller.cs" />
     <Compile Include="MessageTransformHandler.cs" />
     <Compile Include="Helpers\Config.cs" />
+    <Compile Include="JotformMessageTransformHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
