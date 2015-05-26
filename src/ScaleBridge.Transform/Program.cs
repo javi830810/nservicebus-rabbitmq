@@ -25,6 +25,15 @@ namespace ScaleBridge.Transform
             ConfigureLogging(container);
             var configuration = ConfigureNSB(container);
             
+
+//			var jmtm = new ScaleBridge.Core.JotformMessageTransformManager ();
+//			var jfbm = new ScaleBridge.Message.Event.JotformBaseMessage () { 
+//				FormID = 51265455222147,
+//				SubmissionID = 306831371753633797
+//			};
+//			jmtm.Transform (jfbm);
+
+
             using (IStartableBus startableBus = Bus.Create(configuration))
             {
                 IBus bus = startableBus.Start();

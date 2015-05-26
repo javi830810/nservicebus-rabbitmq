@@ -22,35 +22,47 @@ namespace ScaleBridge.Core
 
 		public void Transform(JotformBaseMessage message)
         {
-			var client = new JotForm.APIClient ("0f2d33639109363ae35474c47cfbd9da");
+			var newMessage = new JotformMessage () {
+				FormID = message.FormID,
+				SubmissionID = message.SubmissionID,
+				FormData = new Dictionary<string, string> ()
+			};
+
+			var client = new JotForm.APIClient ("0f2d33639109363ae35474c47cfbd9da", true);
 			var questions = client.getFormQuestions (message.FormID);
 
 			Dictionary<int, string> questionIdNameMap = new Dictionary<int, string> ();
-			foreach (var item in questions) {
-				Console.WriteLine (item.Key);
+
+			var content = questions ["content"].Children();
+
+			foreach (Newtonsoft.Json.Linq.JProperty item in content) {
+				var id = int.Parse(item.Name);
+				string name = (string)item.Value["name"];
+				questionIdNameMap [id] = name;
 			}
 
-			var content = questions ["content"];
-			Console.WriteLine (content);
+			var submission = client.getSubmission (message.SubmissionID);
+			var answers = submission["content"]["answers"].Children();
+			foreach (Newtonsoft.Json.Linq.JProperty answer in answers) {
+				var qid = int.Parse(answer.Name);
+				var answerValue = answer.Value["answer"];
 
-			foreach (var item in content) {
-				Console.WriteLine (item);
-				Console.WriteLine (item.GetType().ToString());
-//				Console.WriteLine (item.Name);
-//				var id = int.Parse(item.Name);
+				// TODO: How to handle nested JSON data?
+				if (answerValue is Newtonsoft.Json.Linq.JObject) {
+					foreach (Newtonsoft.Json.Linq.JProperty prop in answerValue) {
+						var questionName = string.Join (".", new List<string> () { questionIdNameMap [qid], prop.Name });
+						Console.WriteLine (string.Format ("{0}: {1}", questionName, prop.ToObject<string> ()));
+						newMessage.FormData [questionName] = prop.ToObject<string> ();
+					}
+				}
+				else {
+					Console.WriteLine (string.Format ("{0}: {1}", questionIdNameMap [qid], answerValue));
+					newMessage.FormData [questionIdNameMap [qid]] = answerValue.ToString ();
+				}
 			}
+			Console.WriteLine (newMessage);
 
-//			var submission = client.getSubmission (message.SubmissionID);
-
-//			Bus.SendLocal(new JotformMessage(){
-//				FormID = message.FormID,
-//				SubmissionID = message.SubmissionID,
-//				FormData = new Dictionary<string,string>()
-//                {
-//					{"first_name","brian"},
-//                    {"last_name","weller"},
-//                }
-//            });
+			Bus.SendLocal(newMessage);
         }
     }
 }

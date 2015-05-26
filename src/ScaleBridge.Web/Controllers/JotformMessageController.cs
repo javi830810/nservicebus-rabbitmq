@@ -23,29 +23,6 @@ namespace ScaleBridge.Web
 			return "Hello world";
 		}
 
-//		[System.Web.Http.HttpPost]
-//		public void Post(ScaleBridge.Message.Event.JotformBaseMessage formData)
-//		{
-//
-//			try{
-//				Logger.Info("Message received");
-//
-//				Logger.Info(string.Format("formID: {0}", formData.FormID));
-//				Logger.Info(string.Format("submissionID: {0}", formData.SubmissionID));
-//				Bus.Send("ScaleBridge.Transform", formData);
-//				//				Bus.Send("ScaleBridge.Transform", new JotformBaseMessage(){
-//				//					FormID = formID,
-//				//					SubmissionID = submissionID
-//				//				});
-//			}
-//			catch(Exception ex){
-//				Logger.Error(ex.Message);
-//				Logger.Error(ex.StackTrace);
-//				throw;
-//			}
-//		}
-
-
 		public void Post(ScaleBridge.Message.Event.JotformBaseMessage formData)
 		{
 
@@ -54,11 +31,7 @@ namespace ScaleBridge.Web
 
 				Logger.Info(string.Format("formID: {0}", formData.FormID));
 				Logger.Info(string.Format("submissionID: {0}", formData.SubmissionID));
-//				Bus.Send("ScaleBridge.Transform", formData);
-				//				Bus.Send("ScaleBridge.Transform", new JotformBaseMessage(){
-				//					FormID = formID,
-				//					SubmissionID = submissionID
-				//				});
+				Bus.Send("ScaleBridge.Transform", formData);
 			}
 			catch(Exception ex){
 				Logger.Error(ex.Message);

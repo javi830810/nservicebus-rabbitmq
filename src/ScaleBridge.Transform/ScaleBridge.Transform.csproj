@@ -83,5 +83,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
+    <None Include="fullcontact1.json" />
   </ItemGroup>
 </Project>
