@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21F674B1-E384-4353-AC26-DC449AEAC96F}</ProjectGuid>
+    <ProjectGuid>{22F674B1-E384-4353-AC26-DC449AEAC96F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ScaleBridge.Publisher</RootNamespace>
     <AssemblyName>ScaleBridge.Publisher</AssemblyName>
