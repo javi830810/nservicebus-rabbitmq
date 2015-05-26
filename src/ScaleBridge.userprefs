@@ -1,30 +1,11 @@
-﻿<Properties StartupItem="ScaleBridge.Transform/ScaleBridge.Transform.csproj">
+﻿<Properties StartupItem="ScaleBridge.Web/ScaleBridge.Web.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="ScaleBridge.Core/IJotformMessageTransformManager.cs">
     <Files>
-      <File FileName="ScaleBridge.Core/IJotformMessageTransformManager.cs" Line="34" Column="32" />
-      <File FileName="ScaleBridge.Transform/JotformMessageTransformHandler.cs" Line="32" Column="1" />
+      <File FileName="ScaleBridge.Web/Controllers/MessageController.cs" Line="1" Column="1" />
+      <File FileName="ScaleBridge.Web/Controllers/JotformMessageController.cs" Line="25" Column="5" />
+      <File FileName="ScaleBridge.Core/IJotformMessageTransformManager.cs" Line="9" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="ScaleBridge" expanded="True" selected="True">
-            <Node name="ScaleBridge.Core" expanded="True" />
-            <Node name="ScaleBridge.Message" expanded="True">
-              <Node name="Packages" expanded="True" />
-            </Node>
-            <Node name="ScaleBridge.Transform" expanded="True" />
-            <Node name="ScaleBridge.Web" expanded="True">
-              <Node name="Configs" expanded="True" />
-              <Node name="Controllers" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

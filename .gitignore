@@ -6,6 +6,7 @@ config.local.json
 config_variables
 #
 *.DS_Store*
+*userprefs
 local.json
 prod.json
 

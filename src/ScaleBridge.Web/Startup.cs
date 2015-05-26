@@ -37,6 +37,8 @@ namespace ScaleBridge.Web
 
             app.UseWebApi(config);
 
+
+
             var container = ConfigureContainer ();
 			ConfigureLogging();
 			ConfigureBus (container);
@@ -44,6 +46,8 @@ namespace ScaleBridge.Web
 			config.Services.Replace(
 				typeof(IHttpControllerActivator),
 				new ControllersActivator(container));
+
+			config.Formatters.Add(new MultiFormDataMediaTypeFormatter());
         }
 
 		private IWindsorContainer ConfigureContainer()
