@@ -45,6 +45,7 @@
     <Compile Include="Settings\ISettings.cs" />
     <Compile Include="IMessageTransformManager.cs" />
     <Compile Include="IJotformMessageTransformManager.cs" />
+    <Compile Include="IBitrixMessageTransformManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

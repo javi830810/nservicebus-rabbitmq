@@ -44,6 +44,8 @@
     <Compile Include="InputMessage.cs" />
     <Compile Include="ConfigurationQueue.cs" />
     <Compile Include="JotformMessage.cs" />
+    <Compile Include="FullContactApiMessage.cs" />
+    <Compile Include="BitrixMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

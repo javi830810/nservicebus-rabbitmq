@@ -18,4 +18,5 @@ namespace ScaleBridge.Message.Event
 		public long SubmissionID { get; set; }
 		public Dictionary<string,string> FormData { get; set; }
 	}
+
 }

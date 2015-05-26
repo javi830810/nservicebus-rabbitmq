@@ -19,11 +19,20 @@ namespace ScaleBridge.Web
 			Logger = LogManager.GetLogger(GetType().FullName);
 		}
 
-		public void Post(JotformMessage x)
+		public void Post(JotformBaseMessage formData)
 		{
-			Logger.Info (x.FormID);
-			Logger.Info (x.SubmissionID);
-		}
+			try{
+				Logger.Info("Message received");
 
+				Logger.Info(string.Format("formID: {0}", formData.FormID));
+				Logger.Info(string.Format("submissionID: {0}", formData.SubmissionID));
+				Bus.Send("ScaleBridge.Transform", formData);
+			}
+			catch(Exception ex){
+				Logger.Error(ex.Message);
+				Logger.Error(ex.StackTrace);
+				throw;
+			}
+		}
     }
 }

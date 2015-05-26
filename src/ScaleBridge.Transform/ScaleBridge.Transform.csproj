@@ -56,6 +56,9 @@
     <Reference Include="NServiceBus.ObjectBuilder.CastleWindsor">
       <HintPath>..\packages\NServiceBus.CastleWindsor.5.0.0\lib\net45\NServiceBus.ObjectBuilder.CastleWindsor.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="MessageTransformHandler.cs" />
     <Compile Include="Helpers\Config.cs" />
     <Compile Include="JotformMessageTransformHandler.cs" />
+    <Compile Include="BitrixMessageHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -83,5 +87,11 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
+    <None Include="fullcontact1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fullcontact2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

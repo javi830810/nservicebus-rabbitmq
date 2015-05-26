@@ -1,0 +1,21 @@
+﻿{
+    "likelihood": 0.87,
+    "contactInfo": {
+      "familyName": "Ward",
+      "givenName": "Charles",
+      "fullName": "Charles Ward"
+    },
+    "socialProfiles": [
+      {
+        "followers": 1,
+        "following": 1,
+        "typeName": "Facebook",
+        "typeId": "facebook",
+        "id": "100004180476097",
+        "type": "facebook",
+        "url": "https://www.facebook.com/cward.kaplan",
+        "username": "cward.kaplan"
+      }
+    ],
+    "status": 200
+}
