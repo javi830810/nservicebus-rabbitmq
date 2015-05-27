@@ -21,12 +21,12 @@ namespace ScaleBridge.Publisher
             
             var Settings = container.Resolve<Settings>();
             
-            container.Register(Types.FromAssemblyContaining(typeof(IMessageTransformManager))
-                .Pick()
-                .If(Component.IsInNamespace("ScaleBridge.Core"))
-                .If(t => t.Name.EndsWith("Manager", StringComparison.Ordinal))
-                .WithService.DefaultInterfaces()
-                .Configure(c => c.LifestyleSingleton()));
+//			container.Register(Types.FromAssemblyContaining(typeof(HttpMessagePublishHandler))
+//                .Pick()
+//                .If(Component.IsInNamespace("ScaleBridge.Core"))
+//                .If(t => t.Name.EndsWith("Manager", StringComparison.Ordinal))
+//                .WithService.DefaultInterfaces()
+//                .Configure(c => c.LifestyleSingleton()));
 
 
         }

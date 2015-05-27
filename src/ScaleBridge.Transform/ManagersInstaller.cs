@@ -6,6 +6,7 @@ using System;
 using System.Configuration;
 using ScaleBridge.Core;
 using ScaleBridge.Message.Object;
+using NServiceBus;
 
 namespace ScaleBridge.Transform
 {
@@ -19,17 +20,6 @@ namespace ScaleBridge.Transform
             if (container == null)
                 throw new ArgumentNullException("container");
             
-            
-//            container.Register(AllTypes.FromAssemblyContaining(typeof(IMessageTransformManager))
-//                .Pick()
-//                .If(Component.IsInNamespace("ScaleBridge.Core"))
-//                .If(t => t.Name.EndsWith("Manager", StringComparison.Ordinal))
-//                .WithService.DefaultInterfaces()
-//                .Configure(c => c.LifestyleSingleton()));
-			container.Register (
-				Component.For<IMessagePublisherManager> ().ImplementedBy<WebhookPublisherManager> (),
-				Component.For<IMessageTransformManager> ().ImplementedBy<MessageTransformManager> ()
-			);
 
 			var webhookStore = new MemoryWebhookStore(new List<Webhook>(){
 				new Webhook(){
@@ -44,11 +34,47 @@ namespace ScaleBridge.Transform
 				}
 			});
 
-
 			container.Register(Component.For<IWebhookStore>()
 				.Instance(webhookStore)
 				.LifestyleSingleton());
 
+			var pipeLineStore = new MemoryPipelineStore () {
+				Store = new Dictionary<string, ActionTreePipeline> () { { 
+						"jotform", 
+						new ActionTreePipeline () {
+							Current = new APITransformAction () {
+								Url = "api.jotform.com",
+								Method = "POST",
+								PostObjectMap = new DataMap () {
+									PropertyMaps = new Dictionary<string, string> () {
+										{ "SubmissionID", "submissionId" }
+									}
+								},
+								OutputMessageTemplate = new MessageTemplate () {
+									MessageType = "JotFormMessage",
+									PropertyMaps = new Dictionary<string,string> () {
+										{ "formID", "FormID" },
+										{ "submissionID", "submissionID" }
+									}
+								}
+							},
+							Children = new List<ActionTreePipeline>(){
+								new ActionTreePipeline(){
+									Current = new WebhookPublishAction(){
+										Bus = container.Resolve<IBus>(),
+										WebhookStore = container.Resolve<IWebhookStore>(),
+									}
+								}
+
+							}
+						}
+					}
+				}
+			};
+
+			container.Register(Component.For<IPipelineStore>()
+				.Instance(pipeLineStore)
+				.LifestyleSingleton());
         }
 
     }

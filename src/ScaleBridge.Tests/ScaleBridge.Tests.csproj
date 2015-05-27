@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4DD0E68A-60EC-4E23-B387-CB8D071DA0C1}</ProjectGuid>
+    <ProjectGuid>{2DF8279D-DCFC-48B2-9785-8A2F5A1E68E4}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ScaleBridge.Core</RootNamespace>
-    <AssemblyName>ScaleBridge.Core</AssemblyName>
+    <RootNamespace>ScaleBridge.Tests</RootNamespace>
+    <AssemblyName>ScaleBridge.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,46 +29,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="NServiceBus.Core">
-      <HintPath>..\packages\NServiceBus.5.2.0\lib\net45\NServiceBus.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\ISettings.cs" />
-    <Compile Include="Actions\IAction.cs" />
-    <Compile Include="Actions\ITransformAction.cs" />
-    <Compile Include="Actions\MapTransformAction.cs" />
-    <Compile Include="Actions\APITransformAction.cs" />
-    <Compile Include="Actions\IVoidAction.cs" />
-    <Compile Include="Actions\ActionTreePipeline.cs" />
-    <Compile Include="Webhook\IWebhookStore.cs" />
-    <Compile Include="Webhook\MemoryWebhookStore.cs" />
-    <Compile Include="Pipeline\IPipelineStore.cs" />
-    <Compile Include="Pipeline\MemoryPipelineStore.cs" />
-    <Compile Include="Actions\WebhookPublishAction.cs" />
+    <Compile Include="TestTransformActions.cs" />
+    <Compile Include="TestPipeline.cs" />
+    <Compile Include="TestJotFormIntegration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Settings\" />
-    <Folder Include="Actions\" />
-    <Folder Include="Webhook\" />
-    <Folder Include="Pipeline\" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ScaleBridge.Core\ScaleBridge.Core.csproj">
+      <Project>{4DD0E68A-60EC-4E23-B387-CB8D071DA0C1}</Project>
+      <Name>ScaleBridge.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ScaleBridge.Message\ScaleBridge.Message.csproj">
       <Project>{5C883097-24FD-4DBF-AFB7-6EA033E9A5A7}</Project>
       <Name>ScaleBridge.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\partners\ScaleBridge.Partner.JotForm\ScaleBridge.Partner.JotForm.csproj">
+      <Project>{5A883097-24FD-4DBF-AFB7-6EA033E9A5A7}</Project>
+      <Name>ScaleBridge.Partner.JotForm</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

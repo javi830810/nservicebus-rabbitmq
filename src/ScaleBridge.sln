@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScaleBridge.Transform", "Sc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScaleBridge.Publisher", "ScaleBridge.Publisher\ScaleBridge.Publisher.csproj", "{22F674B1-E384-4353-AC26-DC449AEAC96F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScaleBridge.Tests", "ScaleBridge.Tests\ScaleBridge.Tests.csproj", "{2DF8279D-DCFC-48B2-9785-8A2F5A1E68E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScaleBridge.Partner.JotForm", "partners\ScaleBridge.Partner.JotForm\ScaleBridge.Partner.JotForm.csproj", "{5A883097-24FD-4DBF-AFB7-6EA033E9A5A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +27,18 @@ Global
 		{22F674B1-E384-4353-AC26-DC449AEAC96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22F674B1-E384-4353-AC26-DC449AEAC96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22F674B1-E384-4353-AC26-DC449AEAC96F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DF8279D-DCFC-48B2-9785-8A2F5A1E68E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF8279D-DCFC-48B2-9785-8A2F5A1E68E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF8279D-DCFC-48B2-9785-8A2F5A1E68E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF8279D-DCFC-48B2-9785-8A2F5A1E68E4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4DD0E68A-60EC-4E23-B387-CB8D071DA0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DD0E68A-60EC-4E23-B387-CB8D071DA0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DD0E68A-60EC-4E23-B387-CB8D071DA0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DD0E68A-60EC-4E23-B387-CB8D071DA0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A883097-24FD-4DBF-AFB7-6EA033E9A5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A883097-24FD-4DBF-AFB7-6EA033E9A5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A883097-24FD-4DBF-AFB7-6EA033E9A5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A883097-24FD-4DBF-AFB7-6EA033E9A5A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C883097-24FD-4DBF-AFB7-6EA033E9A5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C883097-24FD-4DBF-AFB7-6EA033E9A5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C883097-24FD-4DBF-AFB7-6EA033E9A5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU

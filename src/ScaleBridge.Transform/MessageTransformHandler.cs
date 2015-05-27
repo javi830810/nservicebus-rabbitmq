@@ -5,33 +5,30 @@ using System.Text;
 using ScaleBridge.Core;
 using ScaleBridge.Message;
 using ScaleBridge.Message.Event;
+using ScaleBridge.Message.Object;
 using NServiceBus;
 using NLog;
 
 namespace ScaleBridge.Transform
 {
     public class MessageTransformHandler : 
-        IHandleMessages<InputMessage> 
+	IHandleMessages<EventMessage> 
     {
-        public IMessageTransformManager MessageTransformManager { get; set; }
-		public IMessagePublisherManager MessagePublisher { get; set; }
-
-        public Logger Logger { get; set; }
+		public IPipelineStore PipelineStore { get; set; }
+		public Logger Logger { get; set; }
         
 		public MessageTransformHandler()
         {
 			Logger = LogManager.GetLogger(GetType().FullName);
         }
         
-        public void Handle(InputMessage message)
+        public void Handle(EventMessage message)
         {
 			Logger.Info("InputMessage Start");
             
-			foreach (var messageInfo in MessageTransformManager.Transform(message)) 
-			{
-
-				MessagePublisher.Publish (messageInfo);
-			}
+			var pipeline = PipelineStore.GetPipelineForMessage (message);
+			if (pipeline != null)
+				pipeline.Execute (message);
 
 			Logger.Info("InputMessage Completed");
         }

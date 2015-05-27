@@ -41,7 +41,9 @@
     <Compile Include="Events\InputMessage.cs" />
     <Compile Include="Objects\Webhook.cs" />
     <Compile Include="Commands\SubmitViaHttpCommand.cs" />
-    <Compile Include="Objects\MessageInfo.cs" />
+    <Compile Include="Objects\ObjectMap.cs" />
+    <Compile Include="Objects\MessageTemplate.cs" />
+    <Compile Include="Events\EventMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
