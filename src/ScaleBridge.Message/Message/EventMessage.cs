@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using NServiceBus;
 
-namespace ScaleBridge.Message.Event
+namespace ScaleBridge.Message
 {
 	public class EventMessage
 	{

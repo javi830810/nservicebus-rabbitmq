@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using ScaleBridge.Message.Object;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 using ScaleBridge.Message.Command;
 using NServiceBus;
 
@@ -15,13 +16,22 @@ namespace ScaleBridge.Core
 		{
 			foreach(var webhook in WebhookStore.QueryByEventType(input.MessageType))
 			{
+				var postData = (input.Data != null) ? input.Data : new Dictionary<string,string> ();
+
+				if(webhook.DefaultPostData != null)
+					postData.Merge(webhook.DefaultPostData);
+
 				Bus.Send ("ScaleBridge.Publisher", new SubmitViaHttpCommand () {
 					Url = webhook.Url,
 					Method = webhook.Method,
-					MessageData = input.Data
+					Headers = webhook.Headers,
+					MessageData = postData
 				});
 			}
 		}
 	}
+
+
 }
 
+	

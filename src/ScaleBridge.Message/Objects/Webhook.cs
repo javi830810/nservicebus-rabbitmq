@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ScaleBridge.Message.Object
 {
@@ -8,6 +9,8 @@ namespace ScaleBridge.Message.Object
 		public string Url { get; set; }
 		public string Method { get; set; }
 
+		public Dictionary<string,string> Headers { get; set; }
+		public Dictionary<string,string> DefaultPostData { get; set; }
 	}
 }
 

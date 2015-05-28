@@ -5,6 +5,7 @@ namespace ScaleBridge.Message.Object
 {
 	public class DataMap 
 	{
+		public Dictionary<string,string> DefaultValues { get; set; }
 		public Dictionary<string,string> PropertyMaps { get; set; }
 
 		public bool ExistsMap(string property)
@@ -26,6 +27,8 @@ namespace ScaleBridge.Message.Object
 				if(this.ExistsMap(keyValue.Key))
 					result[this.GetMappedProperty(keyValue.Key)] = input[keyValue.Key];
 			}
+
+			result.Merge(DefaultValues);
 
 			return result;
 		}

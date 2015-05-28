@@ -38,12 +38,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigurationQueue.cs" />
-    <Compile Include="Events\InputMessage.cs" />
     <Compile Include="Objects\Webhook.cs" />
     <Compile Include="Commands\SubmitViaHttpCommand.cs" />
     <Compile Include="Objects\ObjectMap.cs" />
     <Compile Include="Objects\MessageTemplate.cs" />
-    <Compile Include="Events\EventMessage.cs" />
+    <Compile Include="Message\EventMessage.cs" />
+    <Compile Include="Helpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Objects\" />
-    <Folder Include="Events\" />
     <Folder Include="Commands\" />
+    <Folder Include="Message\" />
   </ItemGroup>
 </Project>

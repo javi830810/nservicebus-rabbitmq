@@ -1,5 +1,5 @@
 ﻿using System;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 
 namespace ScaleBridge.Message.Object
 {

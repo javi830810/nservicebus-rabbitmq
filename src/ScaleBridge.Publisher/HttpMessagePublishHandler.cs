@@ -32,14 +32,22 @@ namespace ScaleBridge.Publisher
 				var request = new RestRequest();
 				request.Method = (message.Method == "POST") ? Method.POST : Method.GET;
 
-				foreach (var keyValue in message.MessageData) 
-				{
-					request.AddParameter(keyValue.Key, keyValue.Value);
-				}
+				if(message.Headers != null)
+					foreach (var keyValue in message.Headers) 
+					{
+						request.AddHeader(keyValue.Key, keyValue.Value);
+					}
+
+				if(message.MessageData != null)
+					foreach (var keyValue in message.MessageData) 
+					{
+						request.AddParameter(keyValue.Key, keyValue.Value);
+					}
 
 				// execute the request
 				IRestResponse response = client.Execute(request);
 				var content = response.Content; // raw content as string
+
 			}
 			catch(Exception ex)
 			{

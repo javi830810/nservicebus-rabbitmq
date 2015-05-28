@@ -2,7 +2,7 @@
 using System;
 using ScaleBridge.Core;
 using ScaleBridge.Message.Object;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 using System.Collections.Generic;
 using JF = ScaleBridge.Partner.JotForm;
 
@@ -34,8 +34,8 @@ namespace ScaleBridge.Tests
 			var inputMessage = new EventMessage () {
 				MessageType = "JotFormBaseMessage",
 				Data = new Dictionary<string, string> () {
-					{ "FormID" , "51265455222147" },
-					{ "SubmissionID" , "306831371753633797" }
+					{ "formID" , "51265455222147" },
+					{ "submissionID" , "306831371753633797" }
 				}
 			};
 

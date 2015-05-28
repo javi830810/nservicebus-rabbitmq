@@ -1,0 +1,27 @@
+﻿<Properties StartupItem="ScaleBridge.Publisher/ScaleBridge.Publisher.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ScaleBridge.Web/Startup.cs">
+    <Files>
+      <File FileName="ScaleBridge.Transform/ManagersInstaller.cs" Line="1" Column="1" />
+      <File FileName="ScaleBridge.Web/Controllers/MessageController.cs" Line="1" Column="1" />
+      <File FileName="ScaleBridge.Web/Startup.cs" Line="65" Column="65" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ScaleBridge.Web" expanded="True">
+            <Node name="Controllers" expanded="True" />
+            <Node name="Helpers" expanded="True" />
+            <Node name="Startup.cs" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/javi830810/Documents/scalebridge/src/partners/ScaleBridge.Partner.JotForm/JotFormAPIAction.cs" line="51" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -64,6 +64,8 @@
     <Compile Include="ManagersInstaller.cs" />
     <Compile Include="MessageTransformHandler.cs" />
     <Compile Include="Helpers\Config.cs" />
+    <Compile Include="PipelineStoreInstaller.cs" />
+    <Compile Include="MemoryPipelineStore.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -77,6 +79,10 @@
     <ProjectReference Include="..\ScaleBridge.Message\ScaleBridge.Message.csproj">
       <Project>{5C883097-24FD-4DBF-AFB7-6EA033E9A5A7}</Project>
       <Name>ScaleBridge.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\partners\ScaleBridge.Partner.JotForm\ScaleBridge.Partner.JotForm.csproj">
+      <Project>{5A883097-24FD-4DBF-AFB7-6EA033E9A5A7}</Project>
+      <Name>ScaleBridge.Partner.JotForm</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

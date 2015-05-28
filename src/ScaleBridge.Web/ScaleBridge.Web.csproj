@@ -104,6 +104,7 @@
     <Compile Include="Configs\Config.cs" />
     <Compile Include="WindsorInstallers\ControllersInstaller.cs" />
     <Compile Include="WindsorInstallers\ControllersActivator.cs" />
+    <Compile Include="Helpers\MultipartMediaFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

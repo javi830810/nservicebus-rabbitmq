@@ -11,7 +11,7 @@ using NLog.Targets;
 using NLog.Config;
 
 using ScaleBridge.Message;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 
 namespace ScaleBridge.Publisher
 {
@@ -61,8 +61,9 @@ namespace ScaleBridge.Publisher
             
             var conventionsBuilder = configuration.Conventions();
 
-            conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Command"));
-            conventionsBuilder.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Event"));
+			conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Command"));
+			conventionsBuilder.DefiningEventsAs(t => t.Namespace != null &&  t.Namespace.EndsWith("Event"));
+			conventionsBuilder.DefiningMessagesAs(t => t.Namespace != null &&  t.Namespace.EndsWith("Message"));
 
             configuration.EndpointName("ScaleBridge.Publisher");
             configuration.UseSerialization<JsonSerializer>();

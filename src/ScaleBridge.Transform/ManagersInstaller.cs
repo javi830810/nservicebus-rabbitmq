@@ -7,6 +7,7 @@ using System.Configuration;
 using ScaleBridge.Core;
 using ScaleBridge.Message.Object;
 using NServiceBus;
+using JF = ScaleBridge.Partner.JotForm;
 
 namespace ScaleBridge.Transform
 {
@@ -23,9 +24,15 @@ namespace ScaleBridge.Transform
 
 			var webhookStore = new MemoryWebhookStore(new List<Webhook>(){
 				new Webhook(){
-					Url = "http://iwanttodemo.appspot.com",
+					Url = "https://scalebridge.bitrix24.com/crm/configs/import/lead.php",
 					Method = "POST",
-					EventType = "UserLogged"
+					EventType = JF.JotFormAPIAction.OutputMessageType,
+					DefaultPostData = new Dictionary<string,string>(){
+						{"LOGIN", "brian@scalebridge.net"},
+						{"PASSWORD", "zodxdkfxhmuwsbnu"},
+						{"ASSIGNED_BY_ID", "2"},
+						{"SOURCE_ID", "WEB"}
+					}
 				},
 				new Webhook(){
 					Url = "http://iwanttodemo.appspot.com",
@@ -38,43 +45,7 @@ namespace ScaleBridge.Transform
 				.Instance(webhookStore)
 				.LifestyleSingleton());
 
-			var pipeLineStore = new MemoryPipelineStore () {
-				Store = new Dictionary<string, ActionTreePipeline> () { { 
-						"jotform", 
-						new ActionTreePipeline () {
-							Current = new APITransformAction () {
-								Url = "api.jotform.com",
-								Method = "POST",
-								PostObjectMap = new DataMap () {
-									PropertyMaps = new Dictionary<string, string> () {
-										{ "SubmissionID", "submissionId" }
-									}
-								},
-								OutputMessageTemplate = new MessageTemplate () {
-									MessageType = "JotFormMessage",
-									PropertyMaps = new Dictionary<string,string> () {
-										{ "formID", "FormID" },
-										{ "submissionID", "submissionID" }
-									}
-								}
-							},
-							Children = new List<ActionTreePipeline>(){
-								new ActionTreePipeline(){
-									Current = new WebhookPublishAction(){
-										Bus = container.Resolve<IBus>(),
-										WebhookStore = container.Resolve<IWebhookStore>(),
-									}
-								}
 
-							}
-						}
-					}
-				}
-			};
-
-			container.Register(Component.For<IPipelineStore>()
-				.Instance(pipeLineStore)
-				.LifestyleSingleton());
         }
 
     }

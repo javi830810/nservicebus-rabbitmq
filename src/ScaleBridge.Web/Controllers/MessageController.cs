@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 
 using NLog;
 using NServiceBus;
+
 
 namespace ScaleBridge.Web
 {
@@ -29,8 +30,9 @@ namespace ScaleBridge.Web
 			try{
 				Logger.Info("Message received");
 
-				Bus.Send("ScaleBridge.Transform", new InputMessage(){
-					MessageData = message
+				Bus.Send("ScaleBridge.Transform", new EventMessage(){
+					MessageType = "jotform_start", //We will hardcode the type for now
+					Data = message
 				});
 			}
 			catch(Exception ex){

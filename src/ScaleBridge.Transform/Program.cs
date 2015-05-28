@@ -11,7 +11,7 @@ using NLog.Targets;
 using NLog.Config;
 
 using ScaleBridge.Message;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 
 namespace ScaleBridge.Transform
 {
@@ -25,11 +25,15 @@ namespace ScaleBridge.Transform
             ConfigureLogging(container);
             var configuration = ConfigureNSB(container);
             
+			//We register the Pipeline store after NSB !On purpose
+			container.Install (new PipelineStoreInstaller ());
+
+
             using (IStartableBus startableBus = Bus.Create(configuration))
             {
                 IBus bus = startableBus.Start();
-                
-                //We will keep the process running using a while(true)
+
+				//We will keep the process running using a while(true)
                 //This is in order to not mess with standard input
                 //Process can be started or killed by Ctrl+C
                 while(true){
@@ -61,8 +65,9 @@ namespace ScaleBridge.Transform
             
             var conventionsBuilder = configuration.Conventions();
 
-            conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Command"));
-            conventionsBuilder.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Event"));
+			conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Command"));
+			conventionsBuilder.DefiningEventsAs(t => t.Namespace != null &&  t.Namespace.EndsWith("Event"));
+			conventionsBuilder.DefiningMessagesAs(t => t.Namespace != null &&  t.Namespace.EndsWith("Message"));
 
             configuration.EndpointName("ScaleBridge.Transform");
             configuration.UseSerialization<JsonSerializer>();

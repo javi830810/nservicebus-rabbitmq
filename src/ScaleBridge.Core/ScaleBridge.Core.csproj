@@ -52,7 +52,6 @@
     <Compile Include="Webhook\IWebhookStore.cs" />
     <Compile Include="Webhook\MemoryWebhookStore.cs" />
     <Compile Include="Pipeline\IPipelineStore.cs" />
-    <Compile Include="Pipeline\MemoryPipelineStore.cs" />
     <Compile Include="Actions\WebhookPublishAction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

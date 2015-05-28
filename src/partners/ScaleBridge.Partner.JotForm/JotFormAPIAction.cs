@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using ScaleBridge.Core;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 using ScaleBridge.Message.Object;
 using JF = JotForm;
 
@@ -11,11 +11,12 @@ namespace ScaleBridge.Partner.JotForm
 	public class JotFormAPIAction: ITransformAction
 	{
 		public MessageTemplate OutputMessageTemplate { get; set; }
+		public const string OutputMessageType = "JotForm";
 
 		public EventMessage Transform (EventMessage input)
 		{
 			var client = new JF.APIClient ("0f2d33639109363ae35474c47cfbd9da", true);
-			var questions = client.getFormQuestions (long.Parse(input.Data["FormID"]));
+			var questions = client.getFormQuestions (long.Parse(input.Data["formID"]));
 
 			Dictionary<int, string> questionIdNameMap = new Dictionary<int, string> ();
 
@@ -27,7 +28,7 @@ namespace ScaleBridge.Partner.JotForm
 				questionIdNameMap [id] = name;
 			}
 
-			var submission = client.getSubmission (long.Parse(input.Data["SubmissionID"]));
+			var submission = client.getSubmission (long.Parse(input.Data["submissionID"]));
 			var answers = submission["content"]["answers"].Children();
 
 			var jotFormData = new Dictionary<string,string> ();
@@ -48,7 +49,10 @@ namespace ScaleBridge.Partner.JotForm
 				}
 			}
 
-			return OutputMessageTemplate.Map(new EventMessage(){ Data = jotFormData});
+			return new EventMessage(){
+				MessageType = OutputMessageType,
+				Data = jotFormData,
+			};
 		}
 	}
 }

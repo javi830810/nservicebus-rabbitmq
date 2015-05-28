@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 using ScaleBridge.Message.Object;
 
 namespace ScaleBridge.Core

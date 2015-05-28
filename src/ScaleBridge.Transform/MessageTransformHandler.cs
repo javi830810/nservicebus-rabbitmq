@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScaleBridge.Core;
 using ScaleBridge.Message;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 using ScaleBridge.Message.Object;
 using NServiceBus;
 using NLog;
@@ -27,8 +27,11 @@ namespace ScaleBridge.Transform
 			Logger.Info("InputMessage Start");
             
 			var pipeline = PipelineStore.GetPipelineForMessage (message);
-			if (pipeline != null)
+			if (pipeline != null) {
+				Logger.Info("Executing Pipeline for message" + message.MessageType);
 				pipeline.Execute (message);
+			}
+				
 
 			Logger.Info("InputMessage Completed");
         }

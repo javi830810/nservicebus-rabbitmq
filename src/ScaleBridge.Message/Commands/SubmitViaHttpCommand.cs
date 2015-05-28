@@ -8,6 +8,7 @@ namespace ScaleBridge.Message.Command
 	{
 		public string Url { get; set; }
 		public string Method { get; set; }
+		public Dictionary<string,string> Headers { get; set; }
 		public Dictionary<string,string> MessageData { get; set; }
 	}
 }

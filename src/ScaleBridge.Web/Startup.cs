@@ -43,6 +43,8 @@ namespace ScaleBridge.Web
 			config.Services.Replace(
 				typeof(IHttpControllerActivator),
 				new ControllersActivator(container));
+
+			config.Formatters.Add(new DictionaryMultiFormDataMediaTypeFormatter());
         }
 
 		private IWindsorContainer ConfigureContainer()
@@ -68,8 +70,9 @@ namespace ScaleBridge.Web
 			var conventionsBuilder = configuration.Conventions();
 			var Settings = container.Resolve<ISettings>();
 
-			conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Command"));
-			conventionsBuilder.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Bus") && t.Namespace.EndsWith("Event"));
+			conventionsBuilder.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Command"));
+			conventionsBuilder.DefiningEventsAs(t => t.Namespace != null &&  t.Namespace.EndsWith("Event"));
+			conventionsBuilder.DefiningMessagesAs(t => t.Namespace != null &&  t.Namespace.EndsWith("Message"));
 
 			configuration.EndpointName("ScaleBridge.Web");
 			configuration.UseSerialization<JsonSerializer>();

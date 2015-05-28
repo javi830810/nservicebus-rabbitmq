@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ScaleBridge.Message.Object;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 
 namespace ScaleBridge.Core
 {

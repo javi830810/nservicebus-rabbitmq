@@ -1,6 +1,6 @@
 ﻿using System;
 using ScaleBridge.Message.Object;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 
 namespace ScaleBridge.Core
 {

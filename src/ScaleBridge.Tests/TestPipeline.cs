@@ -2,7 +2,7 @@
 using System;
 using ScaleBridge.Core;
 using ScaleBridge.Message.Object;
-using ScaleBridge.Message.Event;
+using ScaleBridge.Message;
 using System.Collections.Generic;
 
 namespace ScaleBridge.Tests
