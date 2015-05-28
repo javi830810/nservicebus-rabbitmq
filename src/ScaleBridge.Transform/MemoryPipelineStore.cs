@@ -26,6 +26,7 @@ namespace ScaleBridge.Transform
 					new ActionTreePipeline () {
 						Current = new MapTransformAction () {
 							OutputMessageTemplate = new MessageTemplate(){
+								MessageType = "BitrixAPIPublish",
 								DefaultValues = new Dictionary<string,string>(){
 									{ "TITLE", "WHATEVER"},
 								}, 

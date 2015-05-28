@@ -26,7 +26,7 @@ namespace ScaleBridge.Transform
 				new Webhook(){
 					Url = "https://scalebridge.bitrix24.com/crm/configs/import/lead.php",
 					Method = "POST",
-					EventType = JF.JotFormAPIAction.OutputMessageType,
+					EventType = "BitrixAPIPublish",
 					DefaultPostData = new Dictionary<string,string>(){
 						{"LOGIN", "brian@scalebridge.net"},
 						{"PASSWORD", "zodxdkfxhmuwsbnu"},
